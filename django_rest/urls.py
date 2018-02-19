@@ -32,6 +32,18 @@ router.register(r'qualificacions', views.QualificacioViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^login/$', views.LoginView.as_view()),
-    url(r'^as/(?P<centre>\w{0,50})/$', views.AssignaturesView.as_view()),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^as/$', views.AssignaturesView.as_view()),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^professors/$', views.ProfessorViewList.as_view()),
+    url(r'^professors/(?P<pk>[0-9]+)/$', views.ProfessorViewDetail.as_view()),
+    url(r'^assignatures/^user=(?P<centre>)$', views.AssignaturaViewList.as_view()),
+    url(r'^assignatures/(?P<pk>[0-9]+)/$', views.AssignaturaViewDetail.as_view()),
+    url(r'^cursos/$', views.CursViewList.as_view()),
+    url(r'^cursos/(?P<pk>[0-9]+)/$', views.CursViewDetail.as_view()),
+    url(r'^centres/$', views.CentreViewList.as_view()),
+    url(r'^centres/(?P<pk>[0-9]+)/$', views.CentreViewDetail.as_view()),
+    url(r'^alumnes/$', views.AlumneViewList.as_view()),
+    url(r'^alumnes/(?P<pk>[0-9]+)/$', views.AlumneViewDetail.as_view()),
+    url(r'^activitats/$', views.ActivitatViewList.as_view()),
+    url(r'^activitats/(?P<pk>[0-9]+)/$', views.ActivitatViewDetail.as_view()),
 ]
