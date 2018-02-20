@@ -111,12 +111,12 @@ class AssignaturaViewList(APIView):
     API endpoint that allows users to be viewed or edited.
     """
     def get(self, request, format=None):
-        id_centre = request.GET["centre"]
+        id_centre = request.GET.get("centre", None)
         assignatures = None
         if(id_centre == None):
-            assignatures = Assignatura.objects.filter(centre=int(3))
+            assignatures = Assignatura.objects.all()
         else:
-            assignatures = Assignatura.objects.filter(centre=int(2))
+            assignatures = Assignatura.objects.filter(centre=int(id_centre))
         serializer = AssignaturaSerializer(assignatures, many=True)
         return Response(serializer.data)
 
@@ -239,7 +239,12 @@ class AlumneViewList(APIView):
     API endpoint that allows users to be viewed or edited.
     """
     def get(self, request, format=None):
-        objectes = Alumne.objects.all()
+        id_centre = request.GET.get("centre", None)
+        objectes = None
+        if id_centre == None:
+            objectes = Alumne.objects.all()
+        else:
+            objectes = Alumne.objects.filter(centre=id)
         serializer = AlumneSerializer(objectes, many=True)
         return Response(serializer.data)
 
@@ -280,7 +285,12 @@ class ActivitatViewList(APIView):
     API endpoint that allows users to be viewed or edited.
     """
     def get(self, request, format=None):
-        objectes = Activitat.objects.all()
+        id_assignatura = id_centre = request.GET.get("assignatura", None)
+        objectes = None
+        if id_assignatura == None:
+            objectes = Activitat.objects.all()
+        else:
+            objectes = Activitat.objects.filter(assignatura=id_assignatura)
         serializer = ActivitatSerializer(objectes, many=True)
         return Response(serializer.data)
 

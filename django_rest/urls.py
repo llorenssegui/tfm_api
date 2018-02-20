@@ -36,7 +36,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^professors/$', views.ProfessorViewList.as_view()),
     url(r'^professors/(?P<pk>[0-9]+)/$', views.ProfessorViewDetail.as_view()),
-    url(r'^assignatures/^user=(?P<centre>)$', views.AssignaturaViewList.as_view()),
+    url(r'^assignatures/', views.AssignaturaViewList.as_view()),
     url(r'^assignatures/(?P<pk>[0-9]+)/$', views.AssignaturaViewDetail.as_view()),
     url(r'^cursos/$', views.CursViewList.as_view()),
     url(r'^cursos/(?P<pk>[0-9]+)/$', views.CursViewDetail.as_view()),

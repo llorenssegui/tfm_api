@@ -19,7 +19,7 @@ class Professor(models.Model):
     password = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return self.nom + self.congnom_1
+        return self.nom + " " + self.congnom_1
 
 class Curs(models.Model):
     ESO = "eso"
@@ -36,6 +36,16 @@ class Curs(models.Model):
     def __str__(self):
         return self.nom
 
+class Alumne(models.Model):
+    nom = models.CharField(max_length=100, blank=True)
+    congnom_1 = models.CharField(max_length=100, blank=True)
+    congnom_2 = models.CharField(max_length=100, blank=True)
+    curs = models.ForeignKey(Curs, related_name='alumne_curs', blank=True, null=True, on_delete=models.CASCADE)
+    centre = models.ForeignKey(Centre, related_name='alumne_centre', blank=True, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nom + " " + self.congnom_1
+
 class Assignatura(models.Model):
     nom = models.CharField(max_length=100, blank=True)
     professor = models.ForeignKey(Professor, related_name='imparteix', on_delete=models.CASCADE)
@@ -49,20 +59,10 @@ class Activitat(models.Model):
     nom = nom = models.CharField(max_length=100, blank=True)
     ponderacio = models.IntegerField(default=0)
     avaluable = models.BooleanField(default=True)
+    assignatura = models.ForeignKey(Assignatura, related_name='activitat_assignatura', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nom
-
-class Alumne(models.Model):
-    nom = models.CharField(max_length=100, blank=True)
-    congnom_1 = models.CharField(max_length=100, blank=True)
-    congnom_2 = models.CharField(max_length=100, blank=True)
-    assignatures = models.ManyToManyField(Assignatura, related_name="cursa")
-    activitats = models.ManyToManyField(Activitat, related_name="treballa", through="Qualificacio")
-    centre = models.ForeignKey(Centre, related_name='alumne_centre', blank=True, null=True, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.nom + self.congnom_1
 
 class Qualificacio(models.Model):
     alumne = models.ForeignKey(Alumne, on_delete=models.CASCADE)
