@@ -32,7 +32,6 @@ router.register(r'qualificacions', views.QualificacioViewSet)
 urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^login/$', views.LoginView.as_view()),
-    url(r'^as/$', views.AssignaturesView.as_view()),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^professors/$', views.ProfessorViewList.as_view()),
     url(r'^professors/(?P<pk>[0-9]+)/$', views.ProfessorViewDetail.as_view()),

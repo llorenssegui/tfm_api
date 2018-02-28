@@ -7,10 +7,13 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from django_rest.quickstart.models import Professor, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio
 from rest_framework import viewsets
 from django_rest.quickstart.serializers import CursSerializer, ProfessorResponseSerializer, ProfessorSerializer, AssignaturaSerializer, CentreSerializer, AlumneSerializer, ActivitatSerializer, QualificacioSerializer
+import jwt
 
 #Views sets
 # Create your views here.
@@ -332,19 +335,18 @@ class LoginView(APIView):
         rq_email = request.data.get("email", "")
         rq_password = request.data.get("password", "")
         
+        jwt_token=None
         professors = Professor.objects.filter(email=rq_email, password=rq_password)
         if professors.count() == 0:
             raise Http404("Usuari no autenticat")
+        else :
+            payload = {
+                'id': rq_password,
+                'email': rq_email,
+            }
+            jwt_token = jwt.encode(payload, "SECRET_KEY")
+            if(jwt_token == None):
+                raise Http404("Usuari no autenticat")
         serializer = ProfessorResponseSerializer(professors, many=True)
-        return Response(serializer.data)
-
-class AssignaturesView(APIView):
-
-    def get(self, request, format=None):
-        rq_id_centre = request.GET['centre']
-
-        assignatures = Assignatura.objects.filter(id=rq_id_centre)
-        if assignatures.count() == 0:
-            raise Http404("No existeixen assignatures per aquest centre")
-        serializer = AssignaturaSerializer(assignatures, many=True)
-        return Response(serializer.data)
+        rsp = {'token': jwt_token, 'professor': serializer.data[0]}
+        return Response(rsp)

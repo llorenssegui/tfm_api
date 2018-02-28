@@ -7,9 +7,10 @@ class ProfessorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProfessorResponseSerializer(serializers.ModelSerializer):
+    jwt = serializers.CharField(required=False)
     class Meta:
         model = Professor
-        fields = ('nom', 'congnom_1', 'congnom_2', 'email')
+        fields = ('nom', 'congnom_1', 'congnom_2', 'email', 'jwt')
 
 class CursSerializer(serializers.ModelSerializer):
     class Meta:
