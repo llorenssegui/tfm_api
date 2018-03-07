@@ -4,12 +4,6 @@ from __future__ import unicode_literals
 from django.db import models
 
 # Create your models here.
-class Centre(models.Model):
-    nom = models.CharField(max_length=100, default="")
-
-    def __str__(self):
-        return self.nom
-
 class Professor(models.Model):
     nom = models.CharField(max_length=100, blank=True)
     congnom_1 = models.CharField(max_length=100, blank=True)
@@ -20,6 +14,14 @@ class Professor(models.Model):
 
     def __str__(self):
         return self.nom + " " + self.congnom_1
+
+class Centre(models.Model):
+    nom = models.CharField(max_length=100, default="")
+    ubicacio = models.CharField(max_length=100, default="")
+    professor = models.ForeignKey(Professor, related_name='alta', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nom
 
 class Curs(models.Model):
     ESO = "eso"
@@ -48,7 +50,6 @@ class Alumne(models.Model):
 
 class Assignatura(models.Model):
     nom = models.CharField(max_length=100, blank=True)
-    professor = models.ForeignKey(Professor, related_name='imparteix', on_delete=models.CASCADE)
     curs = models.ForeignKey(Curs, related_name='assignatura_curs', on_delete=models.CASCADE)
     centre = models.ForeignKey(Centre, related_name='assignatura_centre', blank=True, null=True, on_delete=models.CASCADE)
 

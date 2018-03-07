@@ -341,7 +341,7 @@ class LoginView(APIView):
             raise Http404("Usuari no autenticat")
         else :
             payload = {
-                'id': rq_password,
+                'id': professors.first().id,
                 'email': rq_email,
             }
             jwt_token = jwt.encode(payload, "SECRET_KEY")
