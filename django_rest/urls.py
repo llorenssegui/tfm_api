@@ -28,6 +28,8 @@ router.register(r'alumnes', views.AlumneViewSet)
 router.register(r'centres', views.CentreViewSet)
 router.register(r'activitats', views.ActivitatViewSet)
 router.register(r'qualificacions', views.QualificacioViewSet)
+router.register(r'trimestres', views.TrimestreViewSet)
+router.register(r'anysacademics', views.AnyAcademicViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -45,4 +47,8 @@ urlpatterns = [
     url(r'^alumnes/(?P<pk>[0-9]+)/$', views.AlumneViewDetail.as_view()),
     url(r'^activitats/$', views.ActivitatViewList.as_view()),
     url(r'^activitats/(?P<pk>[0-9]+)/$', views.ActivitatViewDetail.as_view()),
+    url(r'^trimestres/$', views.TrimestreViewList.as_view()),
+    url(r'^trimestres/(?P<pk>[0-9]+)/$', views.TrimestreViewDetail.as_view()),
+    url(r'^anysacademics/$', views.AnyAcademicViewList.as_view()),
+    url(r'^anysacademics/(?P<pk>[0-9]+)/$', views.AnyAcademicViewDetail.as_view()),
 ]

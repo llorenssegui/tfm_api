@@ -23,6 +23,14 @@ class Centre(models.Model):
     def __str__(self):
         return self.nom
 
+class AnyAcademic(models.Model):
+    anyInici = models.IntegerField(blank=False)
+    anyFi = models.IntegerField(blank=False)
+    centre = models.ForeignKey(Centre, related_name='anyacademic_centre', blank=True, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Any " + self.anyInici + " - " + self.anyFi
+
 class Curs(models.Model):
     ESO = "eso"
     BATXILLERAT = "batxillerat"
@@ -51,16 +59,20 @@ class Alumne(models.Model):
 class Assignatura(models.Model):
     nom = models.CharField(max_length=100, blank=True)
     curs = models.ForeignKey(Curs, related_name='assignatura_curs', on_delete=models.CASCADE)
-    centre = models.ForeignKey(Centre, related_name='assignatura_centre', blank=True, null=True, on_delete=models.CASCADE)
+    anyAcademic = models.ForeignKey(AnyAcademic, related_name='assignatura_anyacademic', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nom
+
+class Trimestre(models.Model):
+    nom = models.CharField(max_length=100, blank=True)
+    assignatura = models.ForeignKey(Assignatura, related_name='trimestre_assignatura', blank=True, null=True, on_delete=models.CASCADE)
 
 class Activitat(models.Model):
     nom = nom = models.CharField(max_length=100, blank=True)
     ponderacio = models.IntegerField(default=0)
     avaluable = models.BooleanField(default=True)
-    assignatura = models.ForeignKey(Assignatura, related_name='activitat_assignatura', blank=True, null=True, on_delete=models.CASCADE)
+    trimestre = models.ForeignKey(Trimestre, related_name='activitat_trimestre', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nom

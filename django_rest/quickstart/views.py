@@ -10,9 +10,9 @@ from rest_framework import status
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from django_rest.quickstart.models import Professor, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio
+from django_rest.quickstart.models import Professor, AnyAcademic, Trimestre, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio
 from rest_framework import viewsets
-from django_rest.quickstart.serializers import CursSerializer, ProfessorResponseSerializer, ProfessorSerializer, AssignaturaSerializer, CentreSerializer, AlumneSerializer, ActivitatSerializer, QualificacioSerializer
+from django_rest.quickstart.serializers import AnyAcademicSerializer, TrimestreSerializer, CursSerializer, ProfessorResponseSerializer, ProfessorSerializer, AssignaturaSerializer, CentreSerializer, AlumneSerializer, ActivitatSerializer, QualificacioSerializer
 import jwt
 
 #Views sets
@@ -67,6 +67,20 @@ class QualificacioViewSet(viewsets.ModelViewSet):
     queryset = Qualificacio.objects.all()
     serializer_class = QualificacioSerializer
 
+class AnyAcademicViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = AnyAcademic.objects.all()
+    serializer_class = AnyAcademicSerializer
+
+class TrimestreViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Trimestre.objects.all()
+    serializer_class = TrimestreSerializer
+
 # Create your views here.
 class ProfessorViewList(APIView):
     """
@@ -114,12 +128,7 @@ class AssignaturaViewList(APIView):
     API endpoint that allows users to be viewed or edited.
     """
     def get(self, request, format=None):
-        id_centre = request.GET.get("centre", None)
-        assignatures = None
-        if(id_centre == None):
-            assignatures = Assignatura.objects.all()
-        else:
-            assignatures = Assignatura.objects.filter(centre=int(id_centre))
+        assignatures = Assignatura.objects.all()
         serializer = AssignaturaSerializer(assignatures, many=True)
         return Response(serializer.data)
 
@@ -288,12 +297,12 @@ class ActivitatViewList(APIView):
     API endpoint that allows users to be viewed or edited.
     """
     def get(self, request, format=None):
-        id_assignatura = id_centre = request.GET.get("assignatura", None)
+        id_trimestre = id_centre = request.GET.get("trimestre", None)
         objectes = None
-        if id_assignatura == None:
+        if id_trimestre == None:
             objectes = Activitat.objects.all()
         else:
-            objectes = Activitat.objects.filter(assignatura=id_assignatura)
+            objectes = Activitat.objects.filter(trimestre=id_trimestre)
         serializer = ActivitatSerializer(objectes, many=True)
         return Response(serializer.data)
 
@@ -350,3 +359,86 @@ class LoginView(APIView):
         serializer = ProfessorResponseSerializer(professors, many=True)
         rsp = {'token': jwt_token, 'professor': serializer.data[0]}
         return Response(rsp)
+
+class AnyAcademicViewList(APIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    def get(self, request, format=None):
+        objectes = AnyAcademic.objects.all()
+        serializer = AnyAcademicSerializer(objectes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = AnyAcademicSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class AnyAcademicViewDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return AnyAcademic.objects.get(pk=pk)
+        except AnyAcademic.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        objecte = self.get_object(pk)
+        serializer = AnyAcademicSerializer(objecte)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        objecte = self.get_object(pk)
+        serializer = AnyAcademicSerializer(objecte, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        objecte = self.get_object(pk)
+        objecte.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class TrimestreViewList(APIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    def get(self, request, format=None):
+        objectes = Trimestre.objects.all()
+        serializer = TrimestreSerializer(objectes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TrimestreSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TrimestreViewDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Trimestre.objects.get(pk=pk)
+        except Trimestre.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        objecte = self.get_object(pk)
+        serializer = TrimestreSerializer(objecte)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        objecte = self.get_object(pk)
+        serializer = TrimestreSerializer(objecte, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        objecte = self.get_object(pk)
+        objecte.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+

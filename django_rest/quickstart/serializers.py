@@ -1,4 +1,4 @@
-from django_rest.quickstart.models import Professor, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio
+from django_rest.quickstart.models import Professor, AnyAcademic, Trimestre, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio
 from rest_framework import serializers
 
 class ProfessorSerializer(serializers.ModelSerializer):
@@ -15,6 +15,16 @@ class ProfessorResponseSerializer(serializers.ModelSerializer):
 class CursSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curs
+        fields = '__all__'
+
+class AnyAcademicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnyAcademic
+        fields = '__all__'
+
+class TrimestreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trimestre
         fields = '__all__'
 
 class AssignaturaSerializer(serializers.ModelSerializer):
