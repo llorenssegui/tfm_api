@@ -29,7 +29,7 @@ class AnyAcademic(models.Model):
     centre = models.ForeignKey(Centre, related_name='anyacademic_centre', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Any " + self.anyInici + " - " + self.anyFi
+        return "Any " + str(self.anyInici) + " - " + str(self.anyFi)
 
 class Curs(models.Model):
     ESO = "eso"
