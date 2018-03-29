@@ -46,11 +46,19 @@ class Curs(models.Model):
     def __str__(self):
         return self.nom
 
+class Grup(models.Model):
+    nom = models.CharField(max_length=100, blank=True)
+    curs = models.ForeignKey(Curs, related_name='grup_curs', blank=True, null=True, on_delete=models.CASCADE)
+    centre = models.ForeignKey(Centre, related_name='grup_centre', blank=True, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nom
+
 class Alumne(models.Model):
     nom = models.CharField(max_length=100, blank=True)
     congnom_1 = models.CharField(max_length=100, blank=True)
     congnom_2 = models.CharField(max_length=100, blank=True)
-    curs = models.ForeignKey(Curs, related_name='alumne_curs', blank=True, null=True, on_delete=models.CASCADE)
+    grup = models.ForeignKey(Grup, related_name='alumne_grup', blank=True, null=True, on_delete=models.CASCADE)
     centre = models.ForeignKey(Centre, related_name='alumne_centre', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):

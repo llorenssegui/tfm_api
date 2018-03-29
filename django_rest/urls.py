@@ -30,6 +30,7 @@ router.register(r'activitats', views.ActivitatViewSet)
 router.register(r'qualificacions', views.QualificacioViewSet)
 router.register(r'trimestres', views.TrimestreViewSet)
 router.register(r'anysacademics', views.AnyAcademicViewSet)
+router.register(r'grups', views.GrupViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -51,4 +52,6 @@ urlpatterns = [
     url(r'^trimestres/(?P<pk>[0-9]+)/$', views.TrimestreViewDetail.as_view()),
     url(r'^anysacademics/$', views.AnyAcademicViewList.as_view()),
     url(r'^anysacademics/(?P<pk>[0-9]+)/$', views.AnyAcademicViewDetail.as_view()),
+    url(r'^grups/$', views.GrupViewList.as_view()),
+    url(r'^grups/(?P<pk>[0-9]+)/$', views.GrupViewDetail.as_view()),
 ]

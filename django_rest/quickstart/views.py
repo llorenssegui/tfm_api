@@ -10,9 +10,9 @@ from rest_framework import status
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from django_rest.quickstart.models import Professor, AnyAcademic, Trimestre, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio
+from django_rest.quickstart.models import Professor, AnyAcademic, Trimestre, Grup, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio
 from rest_framework import viewsets
-from django_rest.quickstart.serializers import AnyAcademicSerializer, TrimestreSerializer, CursSerializer, ProfessorResponseSerializer, ProfessorSerializer, AssignaturaSerializer, CentreSerializer, AlumneSerializer, ActivitatSerializer, QualificacioSerializer
+from django_rest.quickstart.serializers import AnyAcademicSerializer, TrimestreSerializer, CursSerializer, ProfessorResponseSerializer, ProfessorSerializer, AssignaturaSerializer, CentreSerializer, AlumneSerializer, ActivitatSerializer, QualificacioSerializer, GrupSerializer
 import jwt
 
 #Views sets
@@ -80,6 +80,13 @@ class TrimestreViewSet(viewsets.ModelViewSet):
     """
     queryset = Trimestre.objects.all()
     serializer_class = TrimestreSerializer
+
+class GrupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Grup.objects.all()
+    serializer_class = GrupSerializer
 
 # Create your views here.
 class ProfessorViewList(APIView):
@@ -432,6 +439,47 @@ class TrimestreViewDetail(APIView):
     def put(self, request, pk, format=None):
         objecte = self.get_object(pk)
         serializer = TrimestreSerializer(objecte, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        objecte = self.get_object(pk)
+        objecte.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class GrupViewList(APIView):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    def get(self, request, format=None):
+        objectes = Grup.objects.all()
+        serializer = GrupSerializer(objectes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = GrupSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class GrupViewDetail(APIView):
+    def get_object(self, pk):
+        try:
+            return Grup.objects.get(pk=pk)
+        except Grup.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        objecte = self.get_object(pk)
+        serializer = GrupSerializer(objecte)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        objecte = self.get_object(pk)
+        serializer = GrupSerializer(objecte, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

@@ -1,4 +1,4 @@
-from django_rest.quickstart.models import Professor, AnyAcademic, Trimestre, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio
+from django_rest.quickstart.models import Professor, AnyAcademic, Trimestre, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio, Grup
 from rest_framework import serializers
 
 class ProfessorSerializer(serializers.ModelSerializer):
@@ -50,4 +50,9 @@ class ActivitatSerializer(serializers.ModelSerializer):
 class QualificacioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Qualificacio
+        fields = '__all__'
+
+class GrupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Grup
         fields = '__all__'
