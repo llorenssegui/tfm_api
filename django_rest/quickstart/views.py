@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime, timedelta
 
 from django_rest.quickstart.models import Professor, AnyAcademic, Trimestre, Grup, Assignatura, Curs, Centre, Alumne, Activitat, Qualificacio
 from rest_framework import viewsets
@@ -528,9 +529,12 @@ class LoginView(APIView):
         if professors.count() == 0:
             raise Http404("Usuari no autenticat")
         else :
+            timeNow = datetime.utcnow()
+            timeExp = timeNow + timedelta(seconds=3600)
             payload = {
                 'id': professors.first().id,
                 'email': rq_email,
+                'exp': timeExp,
             }
             jwt_token = jwt.encode(payload, 'secret', algorithm='HS256')
             if(jwt_token == None):
