@@ -96,18 +96,13 @@ class ProfessorViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         professors = Professor.objects.all()
         serializer = ProfessorSerializer(professors, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
         serializer = ProfessorSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -115,13 +110,7 @@ class ProfessorViewList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class ProfessorViewDetail(APIView):
-    def get_object(self, pk):
-        try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
+    def get_object(self, pk):        
         try:
             return Professor.objects.get(pk=pk)
         except Professor.DoesNotExist:
@@ -131,7 +120,7 @@ class ProfessorViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         professor = self.get_object(pk)
@@ -142,7 +131,7 @@ class ProfessorViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         professor = self.get_object(pk)
@@ -156,7 +145,7 @@ class ProfessorViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         professor = self.get_object(pk)
@@ -171,7 +160,7 @@ class AssignaturaViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         assignatures = Assignatura.objects.all()
@@ -182,7 +171,7 @@ class AssignaturaViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         serializer = AssignaturaSerializer(data=request.data)
@@ -194,12 +183,6 @@ class AssignaturaViewList(APIView):
 class AssignaturaViewDetail(APIView):
     def get_object(self, pk):
         try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
-        try:
             return Assignatura.objects.get(pk=pk)
         except Assignatura.DoesNotExist:
             raise Http404
@@ -208,7 +191,7 @@ class AssignaturaViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         assignatura = self.get_object(pk)
@@ -219,7 +202,7 @@ class AssignaturaViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         assignatura = self.get_object(pk)
@@ -233,7 +216,7 @@ class AssignaturaViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         assignatura = self.get_object(pk)
@@ -248,7 +231,7 @@ class CursViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objectes = Curs.objects.all()
@@ -259,7 +242,7 @@ class CursViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         serializer = CursSerializer(data=request.data)
@@ -271,12 +254,6 @@ class CursViewList(APIView):
 class CursViewDetail(APIView):
     def get_object(self, pk):
         try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
-        try:
             return Curs.objects.get(pk=pk)
         except Curs.DoesNotExist:
             raise Http404
@@ -285,7 +262,7 @@ class CursViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -296,7 +273,7 @@ class CursViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -310,7 +287,7 @@ class CursViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -325,7 +302,7 @@ class CentreViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objectes = Centre.objects.all()
@@ -336,7 +313,7 @@ class CentreViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         serializer = CentreSerializer(data=request.data)
@@ -348,12 +325,6 @@ class CentreViewList(APIView):
 class CentreViewDetail(APIView):
     def get_object(self, pk):
         try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
-        try:
             return Centre.objects.get(pk=pk)
         except Centre.DoesNotExist:
             raise Http404
@@ -362,7 +333,7 @@ class CentreViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -373,7 +344,7 @@ class CentreViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -387,7 +358,7 @@ class CentreViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -402,7 +373,7 @@ class AlumneViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         id_centre = request.GET.get("centre", None)
@@ -418,7 +389,7 @@ class AlumneViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         serializer = AlumneSerializer(data=request.data)
@@ -430,12 +401,6 @@ class AlumneViewList(APIView):
 class AlumneViewDetail(APIView):
     def get_object(self, pk):
         try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
-        try:
             return Alumne.objects.get(pk=pk)
         except Alumne.DoesNotExist:
             raise Http404
@@ -444,7 +409,7 @@ class AlumneViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -455,7 +420,7 @@ class AlumneViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -469,7 +434,7 @@ class AlumneViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -484,7 +449,7 @@ class ActivitatViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         id_trimestre = id_centre = request.GET.get("trimestre", None)
@@ -500,7 +465,7 @@ class ActivitatViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         serializer = ActivitatSerializer(data=request.data)
@@ -512,12 +477,6 @@ class ActivitatViewList(APIView):
 class ActivitatViewDetail(APIView):
     def get_object(self, pk):
         try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
-        try:
             return Activitat.objects.get(pk=pk)
         except Activitat.DoesNotExist:
             raise Http404
@@ -526,7 +485,7 @@ class ActivitatViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -537,7 +496,7 @@ class ActivitatViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -551,7 +510,7 @@ class ActivitatViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -588,7 +547,7 @@ class AnyAcademicViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objectes = AnyAcademic.objects.all()
@@ -599,7 +558,7 @@ class AnyAcademicViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         serializer = AnyAcademicSerializer(data=request.data)
@@ -609,13 +568,7 @@ class AnyAcademicViewList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AnyAcademicViewDetail(APIView):
-    def get_object(self, pk):
-        try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
+    def get_object(self, pk):       
         try:
             return AnyAcademic.objects.get(pk=pk)
         except AnyAcademic.DoesNotExist:
@@ -625,7 +578,7 @@ class AnyAcademicViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -636,7 +589,7 @@ class AnyAcademicViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -650,7 +603,7 @@ class AnyAcademicViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -665,7 +618,7 @@ class TrimestreViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objectes = Trimestre.objects.all()
@@ -676,7 +629,7 @@ class TrimestreViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         serializer = TrimestreSerializer(data=request.data)
@@ -688,12 +641,6 @@ class TrimestreViewList(APIView):
 class TrimestreViewDetail(APIView):
     def get_object(self, pk):
         try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
-        try:
             return Trimestre.objects.get(pk=pk)
         except Trimestre.DoesNotExist:
             raise Http404
@@ -702,7 +649,7 @@ class TrimestreViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -713,7 +660,7 @@ class TrimestreViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -727,7 +674,7 @@ class TrimestreViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -742,7 +689,7 @@ class GrupViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objectes = Grup.objects.all()
@@ -753,7 +700,7 @@ class GrupViewList(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         serializer = GrupSerializer(data=request.data)
@@ -765,12 +712,6 @@ class GrupViewList(APIView):
 class GrupViewDetail(APIView):
     def get_object(self, pk):
         try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
-        try:
             return Grup.objects.get(pk=pk)
         except Grup.DoesNotExist:
             raise Http404
@@ -779,7 +720,7 @@ class GrupViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -790,7 +731,7 @@ class GrupViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
@@ -804,7 +745,7 @@ class GrupViewDetail(APIView):
         try:
             token = request.META['HTTP_AUTHORIZATION']
             jwt.decode(token, 'secret', algorithms=['HS256'])
-        except jwt.InvalidTokenError:
+        except Exception:
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
         
         objecte = self.get_object(pk)
