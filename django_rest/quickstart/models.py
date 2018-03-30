@@ -32,8 +32,8 @@ class AnyAcademic(models.Model):
         return "Any " + str(self.anyInici) + " - " + str(self.anyFi)
 
 class Curs(models.Model):
-    ESO = "eso"
-    BATXILLERAT = "batxillerat"
+    ESO = "ESO"
+    BATXILLERAT = "Batxillerat"
 
     NIVELLS  = {
         (ESO, "ESO"),

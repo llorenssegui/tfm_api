@@ -21,16 +21,16 @@ from rest_framework import routers
 from django_rest.quickstart import views
 
 router = routers.DefaultRouter()
-router.register(r'professors', views.ProfessorViewSet)
-router.register(r'assignatures', views.AssignaturaViewSet)
-router.register(r'cursos', views.CursViewSet)
-router.register(r'alumnes', views.AlumneViewSet)
-router.register(r'centres', views.CentreViewSet)
-router.register(r'activitats', views.ActivitatViewSet)
-router.register(r'qualificacions', views.QualificacioViewSet)
-router.register(r'trimestres', views.TrimestreViewSet)
-router.register(r'anysacademics', views.AnyAcademicViewSet)
-router.register(r'grups', views.GrupViewSet)
+#router.register(r'professors', views.ProfessorViewSet)
+#router.register(r'assignatures', views.AssignaturaViewSet)
+#router.register(r'cursos', views.CursViewSet)
+#router.register(r'alumnes', views.AlumneViewSet)
+#router.register(r'centres', views.CentreViewSet)
+#router.register(r'activitats', views.ActivitatViewSet)
+#router.register(r'qualificacions', views.QualificacioViewSet)
+#router.register(r'trimestres', views.TrimestreViewSet)
+#router.register(r'anysacademics', views.AnyAcademicViewSet)
+#router.register(r'grups', views.GrupViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
