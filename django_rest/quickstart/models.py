@@ -8,7 +8,7 @@ class Professor(models.Model):
     nom = models.CharField(max_length=100, blank=True)
     congnom_1 = models.CharField(max_length=100, blank=True)
     congnom_2 = models.CharField(max_length=100, blank=True)
-    email = models.CharField(max_length=100, blank=True)
+    email = models.CharField(max_length=100, blank=True, unique=True)
     data_naixement = models.DateField()
     password = models.CharField(max_length=100, blank=True)
 
