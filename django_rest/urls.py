@@ -29,7 +29,7 @@ router = routers.DefaultRouter()
 #router.register(r'activitats', views.ActivitatViewSet)
 #router.register(r'qualificacions', views.QualificacioViewSet)
 #router.register(r'trimestres', views.TrimestreViewSet)
-#router.register(r'anysacademics', views.AnyAcademicViewSet)
+router.register(r'anysacademics', views.AnyAcademicViewSet)
 #router.register(r'grups', views.GrupViewSet)
 
 urlpatterns = [

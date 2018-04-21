@@ -296,9 +296,6 @@ class CursViewDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class CentreViewList(APIView):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
     def get(self, request, format=None):
         try:
             token = request.META['HTTP_AUTHORIZATION']
