@@ -88,7 +88,7 @@ class Activitat(models.Model):
 class Qualificacio(models.Model):
     alumne = models.ForeignKey(Alumne, on_delete=models.CASCADE)
     activitat = models.ForeignKey(Activitat, on_delete=models.CASCADE)
-    qualificacio = models.IntegerField(default=0)
+    qualificacio = models.DecimalField(default=0, max_digits=5, decimal_places=2, blank=True, null=True)
 
     def __str__(self):
         return "" + self.qualificacio
