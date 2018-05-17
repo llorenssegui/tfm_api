@@ -141,6 +141,20 @@ class ProfessorViewDetail(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def patch(self, request, pk):
+        try:
+            token = request.META['HTTP_AUTHORIZATION']
+            jwt.decode(token, 'secret', algorithms=['HS256'])
+        except Exception:
+            return Response({'error': 'Token is invalid or does not exist'}, status=401)
+
+        professor = self.get_object(pk)
+        serializer = ProfessorSerializer(professor, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         try:

@@ -9,7 +9,7 @@ class Professor(models.Model):
     congnom_1 = models.CharField(max_length=100, blank=True)
     congnom_2 = models.CharField(max_length=100, blank=True)
     email = models.CharField(max_length=100, blank=True, unique=True)
-    data_naixement = models.DateField()
+    data_naixement = models.DateField(blank=True)
     password = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
