@@ -56,4 +56,5 @@ urlpatterns = [
     url(r'^grups/(?P<pk>[0-9]+)/$', views.GrupViewDetail.as_view()),
     url(r'^qualificacions/$', views.QualificacionsViewList.as_view()),
     url(r'^qualificacions/(?P<pk>[0-9]+)/$', views.QualificacionsViewDetail.as_view()),
+    url(r'^cambiarcontrassenya/(?P<pk>[0-9]+)/$', views.CambiarContrassenyaView.as_view()),
 ]

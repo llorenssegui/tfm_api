@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 
-from django.http import Http404
+from django.http import Http404, HttpResponseBadRequest
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -127,20 +127,6 @@ class ProfessorViewDetail(APIView):
         professor = self.get_object(pk)
         serializer = ProfessorSerializer(professor)
         return Response(serializer.data)
-
-    def put(self, request, pk, format=None):
-        try:
-            token = request.META['HTTP_AUTHORIZATION']
-            jwt.decode(token, 'secret', algorithms=['HS256'])
-        except Exception:
-            return Response({'error': 'Token is invalid or does not exist'}, status=401)
-        
-        professor = self.get_object(pk)
-        serializer = ProfessorSerializer(professor, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def patch(self, request, pk):
         try:
@@ -150,6 +136,7 @@ class ProfessorViewDetail(APIView):
             return Response({'error': 'Token is invalid or does not exist'}, status=401)
 
         professor = self.get_object(pk)
+        if 'password' in request.data: del request.data['password']
         serializer = ProfessorSerializer(professor, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -545,6 +532,9 @@ class LoginView(APIView):
             payload = {
                 'id': professors.first().id,
                 'email': rq_email,
+                'nom': professors.first().nom,
+                'congnom_1': professors.first().congnom_1,
+                'congnom_2': professors.first().congnom_2,
                 'exp': timeExp,
             }
             jwt_token = jwt.encode(payload, 'secret', algorithm='HS256')
@@ -553,6 +543,33 @@ class LoginView(APIView):
         serializer = ProfessorResponseSerializer(professors, many=True)
         rsp = {'token': jwt_token, 'professor': serializer.data[0]}
         return Response(rsp)
+
+class CambiarContrassenyaView(APIView):
+
+    def post(self, request, pk, format=None):
+        try:
+            token = request.META['HTTP_AUTHORIZATION']
+            jwt.decode(token, 'secret', algorithms=['HS256'])
+        except Exception:
+            return Response({'error': 'Token is invalid or does not exist'}, status=401)
+        
+        rq_email = request.data.get("email", "")
+        rq_password_actual = request.data.get("password_actual", "")
+        rq_password_nova = request.data.get("password_nova", "")
+
+        if(rq_email == None or rq_email == "" or rq_password_actual == None or rq_password_actual == "" or rq_password_nova == None or rq_password_nova == ""):
+            return HttpResponseBadRequest('Peticio incorrecte')
+
+        professors = Professor.objects.filter(email=rq_email, password=rq_password_actual)
+        
+        if professors.count() == 0:
+            raise Http404("Contrassenya no registrada")
+        else:
+            serializer = ProfessorSerializer(professors.first(), data={'password': rq_password_nova})
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AnyAcademicViewList(APIView):
     """
